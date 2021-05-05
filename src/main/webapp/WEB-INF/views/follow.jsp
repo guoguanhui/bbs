@@ -536,7 +536,7 @@
             right.attr("id","follow"+item.fFollowid);
             //********设置这条跟帖(这一行)的id为跟帖id，这样的话点击回复就可以在这个td下面加回复消息何回复框
             /*右边上面的内容*/
-            var content=$("<div class=\"right-follow\"></div>").html(item.fContent);
+            var content=$("<div class=\"right-follow-content\"></div>").html(item.fContent);
             /*右边中间的删除-楼数-时间-回复栏*/
             var userid=${USERID};
             var right_middle_nav=$("<div class=\"right-middle-nav\">");
@@ -760,7 +760,7 @@
 
 
             var reply_right_td=$("<td class=\"right\">");
-            var reply_right_div_content= $("<div class=\"right-follow\">");
+            var reply_right_div_content= $("<div class=\"right-follow-content\">");
             reply_right_div_content.text(item.rContent);
             var reply_right_middle_nav_aux=$("<div class=\"right-middle-nav-aux\">");
             var reply_right_middle_nav=$("<div class=\"right-middle-nav\">");
