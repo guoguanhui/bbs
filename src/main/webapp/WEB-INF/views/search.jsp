@@ -259,7 +259,7 @@
         };
 
         $.ajax({
-            url:"${APP_PATH}/users/searchUsers",
+            url:"${APP_PATH}/user/searchUsers",
             data:data,
             type:"get",
             success:function (result) {

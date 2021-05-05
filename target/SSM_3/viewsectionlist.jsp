@@ -52,26 +52,65 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="sSectionname_update_static" class="col-sm-2 control-label">版块名称</label>
+                        <label for="sSectionname_update_input" class="col-sm-2 control-label">版块名称</label>
                         <div class="col-sm-10">
-                            <p class="form-control-static" id="sSectionname_update_static"></p>
+                            <input type="text" class="form-control" name="sBanzhuid" id="sSectionname_update_input" placeholder="请输入你要修改后的板块名称">
+<%--                            <p class="form-control-static" id="sSectionname_update_static"></p>--%>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="sDescription_update_static" class="col-sm-2 control-label">板块描述</label>
+                        <label for="sDescription_update_input" class="col-sm-2 control-label">板块描述</label>
                         <div class="col-sm-10">
-                            <p class="form-control-static" id="sDescription_update_static"></p>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-sm-offset-2 col-sm-10">
-                            <button type="submit" class="btn btn-default" id="section_update_btn">修改</button>
+                            <input type="text" class="form-control" name="sBanzhuid" id="sDescription_update_input" placeholder="请输入你要修改后的板块描述">
+<%--                            <p class="form-control-static" id="sDescription_update_static"></p>--%>
                         </div>
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">关闭</button>
+                <button type="submit" class="btn btn-primary btn-sm" id="section_update_btn">更新</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 新增板块模态框 -->
+<div class="modal fade" id="sectionAddModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myAddModalLabel">新增板块</h4>
+            </div>
+            <div class="modal-body">
+                <!--新增表单-->
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label for="sId_add_input" class="col-sm-2 control-label">设置版主(填用户管理中用户的序号)</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="sId_add_input" placeholder="请输入你要设置的版主序号">
+                            <%--                <p class="form-control-static" id="sSectionname_update_static"></p>--%>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="sSectionname_add_input" class="col-sm-2 control-label">版块名称</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="sSectionname_add_input" placeholder="请输入你要增加的板块名称">
+                            <%--               <p class="form-control-static" id="sSectionname_update_static"></p>--%>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="sDescription_add_input" class="col-sm-2 control-label">板块描述</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="sDescription_add_input" placeholder="请输入你要增加的板块描述">
+                            <%--                            <p class="form-control-static" id="sDescription_update_static"></p>--%>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">关闭</button>
+                <button type="submit" class="btn btn-primary btn-sm" id="section_add_btn">新增</button>
             </div>
         </div>
     </div>
@@ -99,7 +138,7 @@
                     <a class="" href="">操作中心</a>
                     <dl class="layui-nav-child">
                         <dd><a href="adminPost.jsp">查看主贴</a></dd>
-                        <dd><a href="admin.jsp">用户管理</a></dd>
+                        <dd><a href="${APP_PATH}/jumpadmin">用户管理</a></dd>
                         <dd class="active"><a href="viewsectionlist.jsp">板块管理</a></dd>
                     </dl>
                 </li>
@@ -117,6 +156,9 @@
             </div>
             <!--按钮-->
             <div class="row">
+                <div class="col-md-12 col-md-offset-10">
+                <button type="button" id="add_Section_btn" class="btn btn-success btn-sm glyphicon glyphicon-pencil ">新增</button>
+                </div>
             </div>
             <!--显示表格数据-->
             <div class="row">
@@ -182,17 +224,10 @@
         $("table tbody").empty();
         var sections=result.extend.pageInfo.list;
         var userlist=result.extend.Userlist;
-        // var temp;
-        // var num=0;
-        // for (var i=0;i<userlist.length;i++)
-        // {
-        //     var one=userlist[i];
-        //     temp[num++]=one["uUserid"];
-        // }
         num=0;
         $.each(sections,function (index,item) {
             var one=userlist[index];
-            var sIdTd = $("<td></td>").append(item.sId);
+            // var sIdTd = $("<td></td>").append(item.sId);
             var sSectionnameTd = $("<td></td>").append(item.sSectionname);
             var sDescriptionTd = $("<td></td>").append(item.sDescription);
             var sBanzhuidTd = $("<td></td>").append(one["uUserid"]);
@@ -207,7 +242,7 @@
 
             //为删除按钮添加一个自定义的属性来表示当前删除的员工id
             delBtn.attr("delete-id",item.sId);
-            var btnTd = $("<td></td>").append(editBtn);//.append(delBtn)
+            var btnTd = $("<td></td>").append(editBtn).append(" ").append(delBtn);
             $("<tr></tr>")
                 .append(sSectionnameTd)
                 .append(sDescriptionTd )
@@ -284,21 +319,28 @@
         //弹出是否确认删除的对话框
         var sSectionname =$(this).parents("tr").find("td:eq(0)").text();
         var sId=$(this).attr("delete-id");
+        var data={
+            "sId":sId,
+        };
         if(confirm("确认删除"+sSectionname+"板块吗？")){
             //确认，发送ajax请求删除
             $.ajax({
-                url:"${APP_PATH}/Sections/"+sId,
-                type:"DELETE",
+                url:"${APP_PATH}/Sections",
+                type:"POST",
+                data:data,
                 success:function (result) {
                     if(result.code==100){
                         alert("删除成功");
+                        to_page(currentPage);
+                    }else{
+                        alert("删除失败");
                         to_page(currentPage);
                     }
                 }
             })
         }
     });
-    //点击更换版主
+    //点击编辑板块
     $(document).on("click",".edit_btn",function () {
         //alert("");
         //-------------注意以下的逻辑关系，先后次序不能改变
@@ -317,37 +359,57 @@
     });
 
 
-    //获取员工信息
+    //获取板块信息
     function getSection(sId) {
         $.ajax({
             url:"${APP_PATH}/Section/"+sId,
             type:"GET",
             success:function (result) {
                 var sectionData=result.extend.Section;
-                $("#sSectionname_update_static").text(sectionData.sSectionname);
-                $("#sDescription_update_static").text(sectionData.sDescription);
+                $("#sSectionname_update_input").val(sectionData.sSectionname);
+                $("#sDescription_update_input").val(sectionData.sDescription);
                 //$("#sBanzhuid_update_input").val(sectionData.sBanzhuid);
             }
         });
     }
+    function checkUserid(username){
+        //userid=parseInt(userid);
+        var data;
+        $.ajax({
+            url:"${APP_PATH}/user/checkUserId",
+            data:{username:username},
+            type:"POST",
+            async:false,
+            success:function (result) {
+                if (result.code == 100) {
+                    data = true;
+                } else if (result.code == 200) {
+                    data = false;
+                }
+                // alert(result.code);
+            }
+        });
+        // alert(data);
+        return data;
+    }
     //点击更新，更新板块信息
     $("#section_update_btn").click(function () {
         var sBanzhuid=$("#sBanzhuid_update_input").val();
-        // alert(sBanzhuid);
-
-        // sBanzhuid=$("#sBanzhuid_update_input").attr("banzhuid");
-        // alert(sBanzhuid);
-
+        var sSectionname=$("#sSectionname_update_input").val();
+        var sDescription=$("#sDescription_update_input").val();
+        if(!checkUserid(sBanzhuid)){
+            alert("所要设定的版主不存在，请重新输入正确的版主id");
+            return false;
+        }
         var data={
             "originid":$("#sBanzhuid_update_input").attr("banzhuid"),
             "banzhuUserid":sBanzhuid,
-            "Sectionid":$(this).attr("edit-id")
+            "Sectionid":$(this).attr("edit-id"),
+            "sSectionname":sSectionname,
+            "sDescription":sDescription
         };
         //发送ajax请求，保存更新的用户信息
         $.ajax({
-            <%--url:"${APP_PATH}/section/"+$(this).attr("edit-id"),--%>
-            <%--type:"POST",--%>
-            <%--data:"sBanzhuid="+sBanzhuid,--%>
             url:"${APP_PATH}/findBanzhuId",
             type:"POST",
             data:data,
@@ -358,8 +420,9 @@
                     $("#sectionUpdateModal").modal("hide");
                     //2.回到本页面
                     to_page(currentPage);
-                }else if(result.code==200){
-
+                }else{
+                    alert("编辑失败");
+                    to_page(currentPage);
                 }
             }
         });
@@ -367,6 +430,92 @@
     layui.use('element', function(){
         var element = layui.element;
     });
+
+    /**
+     * 新增板块
+     */
+    // sSectionname_add_input
+    // sDescription_add_input
+    $("#add_Section_btn").click(function () {
+        $("#sectionAddModal").modal({
+            backdrop: "static"
+        });
+    });
+
+    $("#section_add_btn").click(function (){
+        var addSId = $("#sId_add_input").val();
+        var addSectionName = $("#sSectionname_add_input").val();
+        var addSectionDes = $("#sDescription_add_input").val();
+        if(addSectionName.length==0){
+            alert("请输入板块名称");
+            return false;
+        }
+        if(addSectionName.length>20){
+            alert("板块名称不能长于20");
+            return false;
+        }
+        if(addSectionDes.length==0){
+            alert("请输入板块描述");
+            return false;
+        }
+        if(addSectionDes.length>200){
+            alert("板块描述不能长于200");
+            return false;
+        }
+        if(Check(addSId)){
+            var data={
+                "sBanzhuid":addSId,
+                "sSectionname":addSectionName,
+                "sDescription":addSectionDes
+            };
+            $.ajax({
+                url:"${APP_PATH}/addSection",
+                type:"POST",
+                data:data,
+                success:function (result) {
+                    if(result.code==100){
+                        alert("新增成功");
+                        //1.关闭对话框
+                        $("#sectionAddModal").modal("hide");
+                        //2.回到本页面
+                        to_page(currentPage);
+                    }else{
+                        alert("新增失败");
+                    }
+                }
+            });
+        }else{
+            alert("无此序号!!!");
+        }
+    });
+
+    function Check(SId) {
+        var check = true ;
+        var data={
+          "uId":SId,
+        };
+        $.ajax({
+               url:"${APP_PATH}/checkuId",
+               type:"POST",
+               async:false,
+               data:data,
+               success:function(result){
+                   if(result.code==100)
+                   {
+                   }else{
+                       check=false;
+                   }
+               }
+        });
+        if(check)
+        {
+            return true;
+        }
+        else
+            {
+            return false;
+        }
+    }
 </script>
 </body>
 </html>

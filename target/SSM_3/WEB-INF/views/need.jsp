@@ -121,8 +121,8 @@
             var mainnerHeadPic=$("<div></div>").append("<img src='"+item.user.uHeadpic+"'alt='头像' class=\"img-circle\" width=45px height=45px>");
             var mainnerNickname=$("<div></div>").append(item.user.uUserid);
             var userNickname=$("<td></td>").append(mainnerHeadPic).append(mainnerNickname);//主帖的发布者
-            <%--link=$("<a href='${APP_PATH}/jumpToLogin/follow?mainId="+item.mMainid+"' target='_blank' class='link'></a>");--%>
-            <%--userNickname.append(link);--%>
+            link=$("<a href='${APP_PATH}/userInfo.jsp?uid="+item.user.uId+"' target='_blank' class='link'></a>");
+            userNickname.append(link);
 
             var date=formatDate(item.mMaindate);
             var hourandminute=formatDateHourAndMinute(item.mMaindate);

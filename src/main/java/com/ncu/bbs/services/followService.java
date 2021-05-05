@@ -8,4 +8,5 @@ public interface followService {
     List<Follow> getFollowByMainId(int mainid);
     void deleteFollowById(int followid);
     void insertFollow(Follow follow);
+    List<Follow> getFollowPostByMainId(Integer mainId);
 }

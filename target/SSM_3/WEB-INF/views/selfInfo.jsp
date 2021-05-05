@@ -28,13 +28,11 @@
             top: 0%;
             width: 1200px;
             height: 150px;
-            background-color:lightbLue;
         }
         .div2{
             position: absolute;
             left: 1%;
             top: 25%;
- background-color: LightGoldenrodYellow;
         }
         .div3{
             position: absolute;
@@ -55,6 +53,9 @@
             margin:70px auto;
             float:left;
         }
+        button{
+            border:0px;background-color:transparent;
+        }
     </style>
 </head>
 <body>
@@ -63,27 +64,27 @@
     <%@include file="nav-top.jsp"%>
     <!--左部显示-->
     <div class="left-info">
-        <div class="div2">
-            <div class="col-md-3">
+<%--        <div class="div2">--%>
+<%--            <div class="col-md-3">--%>
                 <%-- 个人资料查看--%>
-                <button type="button" id="self_view_btn" class="btn btn-primary">查看个人</button><br><br>
+                <button type="button" id="self_view_btn" class="btn btn-info btn-lg btn-block">查看个人</button>
                 <!-- 个人资料修改-->
-                <button type="button" id="self_info_btn" class="btn btn-primary">个人资料</button><br><br>
+                <button type="button" id="self_info_btn" class="btn btn-info btn-lg btn-block">个人资料</button>
                 <%--文章修改--%>
-<%--                <button type="button" id="article_modify_btn" class="btn btn-primary">文章修改</button><br><br>--%>
+                <button type="button" id="article_modify_btn" class="btn btn-info btn-lg btn-block">文章修改</button>
                 <%--修改密码--%>
-                <button type="button" id="password_modify_btn" class="btn btn-primary">修改密码</button><br><br>
+                <button type="button" id="password_modify_btn" class="btn btn-info btn-lg btn-block">修改密码</button>
                 <%--修改头像--%>
-                <button type="button" id="self_pic_btn" class="btn btn-primary">更换头像</button><br><br>
-            </div>
-        </div>
+                <button type="button" id="self_pic_btn" class="btn btn-info btn-lg btn-block">更换头像</button>
+<%--            </div>--%>
+<%--        </div>--%>
     </div>
     <!--右部的主页内容栏-->
     <div class="right-main">
         <%--显示个人信息和帖子--%>
         <div class="div3">
             <%--    iframe--%>
-            <iframe id="frame_id" src="${APP_PATH}/view" frameborder="0" width="1200" height="800">
+            <iframe id="frame_id" src="${APP_PATH}/view" frameborder="0" width="800" height="800" class="div3">
 
             </iframe>
         </div>
@@ -244,6 +245,7 @@ $("#self_info_btn").click(function () {
 //个人资料修改提交
 $("#self_save_btn").click(function () {
     //先进行数据校验
+    if(!is_tooLong()) return false;
     /**  获取表单修改后信息  **/
     var userid=$("#userid_input").val();
     // var password=$("#makeSure_input").val();
@@ -255,9 +257,9 @@ $("#self_save_btn").click(function () {
     var workproperty=$("#workproperty_input").val();
     var workplace=$("#workplace_input").val();
     var intro=$("#self_intro").val();
-alert("userid="+userid+"&name="+name+"&nickname="+nickname+"&sex="+sex+"&age="+age
-    +"&email="+email+"&workproperty="+workproperty+"&workplace="+workplace+"&intro="
-    +intro,)
+// alert("userid="+userid+"&name="+name+"&nickname="+nickname+"&sex="+sex+"&age="+age
+//     +"&email="+email+"&workproperty="+workproperty+"&workplace="+workplace+"&intro="
+//     +intro,)
  $.ajax({
         url:"${APP_PATH}/selfAjax?userid="+userid+"&name="+name+"&nickname="+nickname
             +"&sex="+sex+"&age="+age+"&email="+email+"&workproperty="+workproperty+"&workplace="+workplace+"&intro="+intro,
@@ -275,7 +277,50 @@ alert("userid="+userid+"&name="+name+"&nickname="+nickname+"&sex="+sex+"&age="+a
     });
 });
 
-
+//校验输入是否过长
+ function   is_tooLong() {
+     var name = $("#name_input").val();
+     var nickname = $("#nickname_input").val();
+     var sex = $("#gender_input").val();
+     var age = $("#age_input").val();
+     var email = $("#email_input").val();
+     var workproperty = $("#workproperty_input").val();
+     var workplace = $("#workplace_input").val();
+     var intro = $("#self_intro").val();
+     if (name.length > 20) {
+         alert("用户名输入过长，请您重新填写！！")
+         return false;
+     }
+   else  if (nickname.length > 20) {
+         alert("昵称输入过长，请您重新填写！！")
+         return false;
+     }
+   else  if (sex.length > 10) {
+         alert("性别输入过长，请您重新填写！！")
+         return false;
+     }
+   else  if (age.length > 5) {
+         alert("年龄输入过长，请您重新填写！！")
+         return false;
+     }
+    else if (email.length > 30) {
+         alert("邮箱输入过长，请您重新填写！！")
+         return false;
+     }
+  else   if (workplace.length> 100) {
+         alert("工作地址输入过长，请您重新填写！！")
+         return false;
+     }
+   else  if (workproperty.length > 100) {
+         alert("工作性质输入过长，请您重新填写！！")
+         return false;
+     }
+   else  if (intro.length > 200) {
+         alert("个人介绍输入过长，请您重新填写！！")
+         return false;
+     }
+   else return true;
+ }
 </script>
 </body>
 </html>

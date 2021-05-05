@@ -14,6 +14,7 @@
     <%
         //这个的路径是以斜线开始的，不以斜线结束
         pageContext.setAttribute("APP_PATH",request.getContextPath());
+
     %>
     <!--引入jquery-->
     <script src="${APP_PATH}/statics/js/jquery-1.10.2.js"></script>
@@ -44,7 +45,7 @@
                             <li><a href="${APP_PATH}/adminlogin.jsp">管理员登录</a></li>
                         </c:if>
                         <c:if test="${adminid!=null}">
-                            <li><a href="${APP_PATH}/admin.jsp">管理员入口</a></li>
+                            <li><a href="${APP_PATH}/jumpToLogin/toWhere?where=admin">管理员入口</a></li>
                         </c:if>
                         <c:if test="${userid==null}">
                             <li><a href="${APP_PATH}/jumpToLogin/login">登录</a></li>
@@ -66,18 +67,21 @@
             </div><!-- /.container-fluid -->
         </nav>
     </div>
-
+<div class="main">
     <!--右部的主页内容栏-->
-    <div class="right-main">
+    <div class="main-section">
         <div class="container allsections">
-<%--            <div class="row sections">--%>
+            <%--            <div class="row sections">--%>
 
-<%--            </div>--%>
+            <%--            </div>--%>
         </div>
     </div>
+</div>
+
 <script>
     //页面首次加载
     $(function () {
+
         $.ajax({
             url:"${APP_PATH}/section/findAll",
             type:"GET",

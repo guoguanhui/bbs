@@ -32,5 +32,15 @@ public class followServiceImpl implements followService {
     public void insertFollow(Follow follow) {
         followMapper.insert(follow);
     }
+/**
+ * wale
+ */
 
+    @Override
+    public List<Follow> getFollowPostByMainId(Integer mainId) {
+        FollowExample followExample=new FollowExample();
+        FollowExample.Criteria criteria=followExample.createCriteria();
+        criteria.andFMainidEqualTo(mainId);
+        return followMapper.selectByExample(followExample);
+    }
 }

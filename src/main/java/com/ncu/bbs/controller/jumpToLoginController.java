@@ -61,4 +61,11 @@ public class jumpToLoginController {
     public  String register(HttpServletRequest request, HttpSession session) throws UnsupportedEncodingException {
         return "forward:/register.jsp";
     }
+    /**
+     * wale
+     */
+    @RequestMapping("/toAdminPost")
+    public String toAdminPost(){
+        return "adminPost";
+    }
 }

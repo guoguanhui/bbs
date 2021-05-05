@@ -36,11 +36,17 @@ h1{
     background-color: #e9f1f4;
     /*background-color:blue;*/
 }
+.main{
+    /*background-image:url("../images/bg/pic1.jpg");*/
+}
+.main-section{
+    margin:0 auto;
+}
 .right-main{
     /*float:left;*/
     /*height:92%;*/
     /*width:90%;*/
-    /*background-image:url("../images/section/section3.jpg");*/
+    /*background-image:url("../images/bg/pic3.jpg");*/
     margin:70px auto;
     /*padding: 60px 0 0 60px;!*padding: 60px 0 0 160px;*!*/
     /*background-color:red;*/

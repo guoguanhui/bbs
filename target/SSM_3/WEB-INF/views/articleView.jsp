@@ -21,6 +21,45 @@
     <!--引入样式-->
     <link href="${APP_PATH}/statics/css/bootstrap-3.3.7-dist/css/bootstrap.css" rel="stylesheet">
     <script src="${APP_PATH}/statics/css/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+    <script>
+        function getArticle() {
+            var userid='${userid}';
+            $.ajax({
+                url:"${APP_PATH}/getArticle",
+                data:{mainerid:userid},
+                type:"GET",
+                success: function (result) {
+                    var s=result.extend.main;
+                    $.each(s,function (index,item) {
+                       // var link=$("<a href='${APP_PATH}/jumpToLogin/follow?mainId="+item.mMainid+"' target='_blank' class='link'></a>");
+                        // var num=0;
+                        var numTd=$("<td></td>").append(index+1);            // 序号显示在表格
+                        //           num++;
+                        var Maindate=timestampToTime(item.mMaindate);
+                        var titleTd=$("<td></td>").append(item.mTitle);
+                        //titleTd.append(link)//获取数据库帖子的标题
+                        var contentTd=$("<td></td>").append(item.mContent);
+                        var mainidTd=$("<td></td>").append(item.mMainid);
+                        // var maineridTd=$("<td></td>").append(item.mMainerid);
+                        var maindateTd=$("<td></td>").append(Maindate);
+                        var editBtn=$("<button></button>").addClass("btn btn-primary btn-sm edit_btn")
+                            .append($("<span></span>").addClass("glyphicon glyphicon-pencil"))
+                            .append("编辑");
+                        editBtn.attr("mainid",item.mMainid);
+                        var deleteBtn=$("<button></button>").addClass("btn btn-danger btn-sm delete_btn")
+                            .append($("<span></span>").addClass("glyphicon glyphicon-trash"))
+                            .append("删除");
+                        deleteBtn.attr("mainid",item.mMainid);
+                        $("<tr></tr>").append(numTd).append(titleTd)
+                            .append(maindateTd).append(editBtn).append(deleteBtn)
+                            .appendTo("#article_table tbody");
+
+                    });
+                }
+            });
+
+        }
+    </script>
 </head>
 <body onload="getArticle()">
 <div class="container">
@@ -38,7 +77,6 @@
             <thead>
             <tr>
                 <th>序号</th>
-                <th>id</th>
                 <th>标题</th>
                 <th>发帖时间</th>
                 <th>操作</th>
@@ -95,48 +133,8 @@
 </div>
 <script>
 //文章展示
-function getArticle() {
-    var userid='${userid}';
-$.ajax({
-url:"${APP_PATH}/getArticle",
-data:{mainerid:userid},
-type:"GET",
-success: function (result) {
-var s=result.extend.main;
-var a=1;
-$.each(s,function (index,item) {
-    // var num=0;
-    var numTd=$("<td></td>").append(index+1);            // 序号显示在表格
-    //           num++;
-              var Maindate=timestampToTime(item.mMaindate);
-              // var titleTd=$("<td></td>").append(item.)         获取数据库帖子的标题
-    var contentTd=$("<td></td>").append(item.mContent);
-    var mainidTd=$("<td></td>").append(item.mMainid);
-    var maineridTd=$("<td></td>").append(item.mMainerid);
-    var maindateTd=$("<td></td>").append(Maindate);
-    var editBtn=$("<button></button>").addClass("btn btn-primary btn-sm edit_btn")
-        .append($("<span></span>").addClass("glyphicon glyphicon-pencil"))
-        .append("编辑");
-    editBtn.attr("mainid",item.mMainid);
-    var deleteBtn=$("<button></button>").addClass("btn btn-danger btn-sm delete_btn")
-        .append($("<span></span>").addClass("glyphicon glyphicon-trash"))
-        .append("删除");
-    $("<tr></tr>").append(numTd).append(mainidTd).append(contentTd)
-       .append(maindateTd).append(editBtn).append(deleteBtn)
-        .appendTo("#article_table tbody");
 
-});
-}
-});
 
-}
-//自增序号
-// function next_id(){
-//     var current_id = 0;
-//     return function (){
-//         return ++current_id;
-//     }
-// }
 //时间格式
 function timestampToTime(timestamp) {
     var date = new Date(timestamp);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
@@ -152,14 +150,33 @@ function timestampToTime(timestamp) {
 //编辑按钮实现
     $(document).on("click",".edit_btn",function () {
         var mainid=$(this).attr("mainid");
+        // alert(mainid);
+        window.open("${APP_PATH}/jumpToLogin/follows?mainId="+mainid);
+        <%--window.location.href='${APP_PATH}/jumpToLogin/follows?mainId='+mainid;--%>
                 // alert("1111")
-      window.location.href="${APP_PATH}/jumpwang/tofollow?mainid="+mainid;
-
 });
 //删除按钮实现
 $(document).on("click",".delete_btn",function () {
     // alert("1111")
-    window.location.href="${APP_PATH}/view";
+    var mainid=$(this).attr("mainid");
+    // alert(mainid)
+    $.ajax({
+        url:"${APP_PATH}/deleteArticle",
+        data:{mainid:mainid},
+        type:"POST",
+        success: function (result) {
+            if (result =="") {
+                alert("文章删除成功！");
+                $("td").remove();
+                $("button").remove();
+                getArticle();
+            }
+            else {
+                alert("文章删除失败！");
+            }
+        }
+
+    });
 
 });
 

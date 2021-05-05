@@ -1,4 +1,3 @@
-
 <%--
   Created by IntelliJ IDEA.
   User: 浩瀚
@@ -31,7 +30,7 @@
 <body>
     <div class="containers">
             <!--上方的导航栏-->
-        <%@include file="nav-top.jsp"%>
+            <%@include file="nav-top.jsp"%>
             <!--右部的主页内容栏-->
             <div class="right-main">
                 <div class="container">
@@ -51,14 +50,14 @@
                                     <div class="col-md-12"><!--存放所有的帖子-->
                                         <table class="table table-hover" id="mains_table">
                                             <thead>
-                                                <tr>
-                                                    <th>#</th>
-                                                    <th>标题</th>
-                                                    <th>发帖人</th>
-                                                    <th>发帖时间</th>
-                                                    <th>回复数</th>
-                                                    <th>最后发表</th>
-                                                </tr>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>标题</th>
+                                                <th>发帖人</th>
+                                                <th>发帖时间</th>
+                                                <th>回复数</th>
+                                                <th>最后发表</th>
+                                            </tr>
                                             </thead>
                                             <tbody>
                                             </tbody>
@@ -95,7 +94,7 @@
                                 <div class="row">
                                     <div class="input-group title">
                                         <input type="text" name="title" id="P-title" class="form-control" style="width:1150px;height:50px" placeholder="请填写标题（字数不多于50）"/>
-<%--                                        <span>注：标题长度不超过50个字</span>--%>
+                                        <%--                                        <span>注：标题长度不超过50个字</span>--%>
                                         <span class="help-block"></span>
                                     </div>
                                 </div>
@@ -173,7 +172,6 @@
     });
     //跳转到页面
     function to_page(pn){
-
         var data={
             "pn":pn,
             "sectionId":${section.sId}
@@ -220,8 +218,8 @@
             var mainnerHeadPic=$("<div></div>").append("<img src='"+item.user.uHeadpic+"'alt='头像' class=\"img-circle\" width=45px height=45px>");
             var mainnerNickname=$("<div></div>").append(item.user.uUserid);
             var userNickname=$("<td></td>").append(mainnerHeadPic).append(mainnerNickname);//主帖的发布者
-            <%--link=$("<a href='${APP_PATH}/jumpToLogin/follow?mainId="+item.mMainid+"' target='_blank' class='link'></a>");--%>
-            <%--userNickname.append(link);--%>
+            link=$("<a href='${APP_PATH}/userInfo.jsp?uid="+item.user.uId+"' target='_blank' class='link'></a>");
+            userNickname.append(link);
 
             var date=formatDate(item.mMaindate);
             var hourandminute=formatDateHourAndMinute(item.mMaindate);
@@ -231,7 +229,7 @@
             var latestdate=formatDate(item.latestTime);
             var latesthourandminute=formatDateHourAndMinute(item.latestTime);
 
-            var latestuser=$("<div></div>").append(item.latestPublish.uNickname);
+            var latestuser=$("<div></div>").append(item.latestPublish.uUserid);
             var latesttime=$("<div></div>").append(latestdate+" "+latesthourandminute);
             //最新发表
             var latest=$("<td></td>").append(latestuser).append(latesttime);
@@ -260,8 +258,8 @@
             var mainnerHeadPic=$("<div></div>").append("<img src='"+item.user.uHeadpic+"'alt='头像' class=\"img-circle\" width=50px height=50px>");
             var mainnerNickname=$("<div></div>").append(item.user.uUserid);
             var userNickname=$("<td></td>").append(mainnerHeadPic).append(mainnerNickname);//主帖的发布者
-            <%--link=$("<a href='${APP_PATH}/jumpToLogin/follow?mainId="+item.mMainid+"' target='_blank' class='link'></a>");--%>
-            <%--userNickname.append(link);--%>
+            link=$("<a href='${APP_PATH}/userInfo.jsp?uid="+item.user.uId+"' target='_blank' class='link'></a>");
+            userNickname.append(link);
 
             var date=formatDate(item.mMaindate);
             var hourandminute=formatDateHourAndMinute(item.mMaindate);
@@ -272,7 +270,7 @@
             var latestdate=formatDate(item.latestTime);
             var latesthourandminute=formatDateHourAndMinute(item.latestTime);
             //最新发表的相关信息
-            var latestuser=$("<div></div>").append(item.latestPublish.uNickname);
+            var latestuser=$("<div></div>").append(item.latestPublish.uUserid);
             var latesttime=$("<div></div>").append(latestdate+" "+latesthourandminute);
             //最新发表
             var latest=$("<td></td>").append(latestuser).append(latesttime);
@@ -371,8 +369,12 @@
         if(!$("#point").val())
             point=0;
         else point=parseInt(point);
+
         if(point>100){
             show_validate_msg("#point","error","奖励的积分数不得超过100");
+            return false;
+        }else if(point<0){
+            show_validate_msg("#point","error","奖励的积分数必须大于0");
             return false;
         }
         return true;
@@ -397,7 +399,7 @@
 
         //首先判断是否登录
         if("${userid}".length==0){
-            alert("您当前未登录，不能发布帖子！");
+            showerrormess("您当前未登录，不能发布帖子！");
             return false;
         }
         var content=getContentData();
@@ -405,6 +407,7 @@
         if(!$("#point").val())
             point=0;
         else point=parseInt(point);
+        // alert(point);
         //数据校验
         if(!validateInput()){
             return false;
@@ -439,7 +442,7 @@
                         show_validate_msg("#point","error",result.extend.errorFields.point);
                     }
                     if(undefined!=result.extend.errorFields.title){
-                        show_validate_msg("#point","error",result.extend.errorFields.title);
+                        show_validate_msg("#P-title","error",result.extend.errorFields.title);
                     }
                     if(undefined!=result.extend.errorFields.content){
                         alert(result.extend.errorFields.content);
@@ -515,8 +518,24 @@
        var point=$(this).val();
        if(point>100){
            show_validate_msg("#point","error","奖励的积分数不得超过100");
+       }else if(point<=0){
+           show_validate_msg("#point","error","奖励的积分数必须大于0");
        }else{
-           show_validate_msg("#point","success","");
+           var data={
+               "point":point
+           };
+           //判断发帖人是否有足够的积分进行发帖
+           $.ajax({
+               url:"${APP_PATH}/main/hasEnoughPoint",
+               data:data,
+               success:function (result) {
+                    if(result.code==100){
+                        show_validate_msg("#point","success","");
+                    }else if(result.code==200){
+                        show_validate_msg("#point","error","您账户中的个人积分不足，无法发布积分奖励，请减少积分奖励数量或者发布普通帖子！");
+                    }
+               }
+           });
        }
     });
     //奖励积分输入框的变化
@@ -531,50 +550,6 @@
         }
     });
 
-
-    //点击某个帖子
-    <%--$(document).on("click ",".link",function () {--%>
-    <%--    //alert($(this).attr('href'));--%>
-    <%--    var mainId=$(this).attr('href');--%>
-    <%--    window.open("${APP_PATH}/main/theMain?mainId="+mainId,"_self");--%>
-    <%--})--%>
-
-    <%--/*--%>
-    <%--    点击发送图片，触发表单的点击事件--%>
-    <%-- */--%>
-    <%--$('.import').click(function(){--%>
-    <%--    $("#pic").trigger('click');--%>
-    <%--});--%>
-    <%--// 当表单文件有变化时执行提交动作--%>
-    <%--$('[name="pic"]').change(function(){--%>
-    <%--    if($(this).val()){--%>
-    <%--        $('.import').addClass('disabled');//图片链接禁用--%>
-    <%--        //$(this).parent().submit();--%>
-    <%--        var formData = new FormData();--%>
-    <%--        formData.append("picture", $("#pic")[0].files[0]);--%>
-    <%--        //alert("file");--%>
-    <%--        $.ajax({--%>
-    <%--            url:"${APP_PATH}/upload/picture",--%>
-    <%--            type:"POST",--%>
-    <%--            data:formData,--%>
-    <%--            contentType:false,--%>
-    <%--            processData:false,//这个很有必要，不然不行--%>
-    <%--            dataType:"json",--%>
-    <%--            mimeType:"multipart/form-data",--%>
-    <%--            success:function (result) {--%>
-    <%--                if(result.code===100){--%>
-    <%--                    var contents=$("#content").html();--%>
-    <%--                    // var paths="/bbs/statics/images/"+result.extend.filename;--%>
-    <%--                    var paths="${APP_PATH}/statics/images/"+result.extend.filename;--%>
-    <%--                    contents+="<div><img src=\""+paths+"\" width=200 height=200><div>";--%>
-    <%--                    $(".content").html(contents);--%>
-    <%--                }else{--%>
-    <%--                    alert("failed");--%>
-    <%--                }--%>
-    <%--            }--%>
-    <%--        });--%>
-    <%--    }--%>
-    <%--});--%>
 </script>
 </body>
 </html>

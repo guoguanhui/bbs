@@ -162,7 +162,7 @@
                 var mainTitleTd=$("<td></td>").append(item.sSectionname);
                 var link=$("<a href='${APP_PATH}/section/thesection?sectionId="+item.sId+"' target='_blank' class='link'></a>");
                 mainTitleTd.append(link);
-
+                // var divdescription=$("<div style='width=100px'></div>").append(item.sDescription);
                 var description=$("<td></td>").append(item.sDescription);
 
                 var mainnums=$("<td></td>").append(item.mainNums);

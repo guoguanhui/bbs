@@ -161,8 +161,8 @@
             var mainnerHeadPic=$("<div></div>").append("<img src='"+item.user.uHeadpic+"'alt='头像' class=\"img-circle\" width=45px height=45px>");
             var mainnerNickname=$("<div></div>").append(item.user.uUserid);
             var userNickname=$("<td></td>").append(mainnerHeadPic).append(mainnerNickname);//主帖的发布者
-            <%--link=$("<a href='${APP_PATH}/jumpToLogin/follow?mainId="+item.mMainid+"' target='_blank' class='link'></a>");--%>
-            <%--userNickname.append(link);--%>
+            link=$("<a href='${APP_PATH}/userInfo.jsp?uid="+item.user.uId+"' target='_blank' class='link'></a>");
+            userNickname.append(link);
 
             var date=formatDate(item.mMaindate);
             var hourandminute=formatDateHourAndMinute(item.mMaindate);
@@ -272,7 +272,7 @@
             return;
         }
         if("${userid}"!="${section.sBanzhuid}"){
-            alert("你不是该版的版主，不能进行移除操作！！！");
+            alert("你不是该版的版主，不能进行加精操作！！！");
             return;
         }
         var postID="";
@@ -309,7 +309,14 @@
                         to_page(currentPage);
                         //window.open("${APP_PATH}/section/perfects?sectionId=${section.sId}");//先跳转到controller再跳转到指定页面
                     }else{
-                        alert("加精失败！");
+                        //执行有错误时候的判断
+                        if(undefined!=result.extend.errorFields.usernotlogin){
+                            alert(result.extend.errorFields.usernotlogin);
+                        }
+                        if(undefined!=result.extend.errorFields.notbanzhu){
+                            alert(result.extend.errorFields.notbanzhu);
+                        }
+                        //alert("加精失败！");
                     }
                 }
             });

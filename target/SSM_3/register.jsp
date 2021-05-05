@@ -23,7 +23,7 @@
     <script type="text/javascript" src="${APP_PATH}/statics/bootstrapValidator/dist/js/bootstrapValidator.js"></script>
     <title>注册</title>
 </head>
-<body>
+<body style="background-image:url('${APP_PATH}/statics/images/register.jpg')">
 <div class="container">
     <div class="row">
         <!-- form: -->
@@ -32,7 +32,7 @@
                 <div class="page-header">
                     <h2>注&nbsp;册</h2>
                 </div>
-                <form id="user_regis_form" class="form-horizontal"
+                <form action="${APP_PATH}/regUser" method="post" id="user_regis_form" class="form-horizontal"
 <%--                      method="post" action="reguser"--%>
                       data-bv-message="This value is not valid"
                       data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
@@ -139,13 +139,43 @@
 </div>
 </body>
 <script>
-
+    $(function(){
+        $("#uName").empty();
+        $("#uAge").empty();
+        $("#uUserid").empty();
+        $("#uNickname").empty();
+        $("#uEmail").empty();
+        $("#uPassword").empty();
+    });
      $("#user_regis_form").submit(function (){
         //1.采用模态框进行表单数据的提交给服务器
         //2.发送ajax请求保存新用户
+         //发送ajax请求校验账号是否重复
+         var uUserid=$("#uUserid").val();
+         var checkid = true;
+         $.ajax({
+             url:"${APP_PATH}/checkuUserid",
+             data:"uUserid="+uUserid,
+             async:false,
+             type:"POST",
+             success:function (result){
+                 if(result.code==100){
+                     $("#uUserid").parent().removeClass("has-error");
+                     $("#uUserid").parent().addClass("has-success");
+                 }else{
+                     $("#uUserid").parent().removeClass("has-success");
+                     $("#uUserid").parent().addClass("has-error");
+                     checkid = false;
+                 }
+             }
+         });
+         if(checkid){
+         }else{
+             alert("账号重复");
+             return false;
+         }
              var uName=$("#uName").val();
              var uAge=$("#uAge").val();
-             var uUserid=$("#uUserid").val();
              var uNickname=$("#uNickname").val();
              var uEmail=$("#uEmail").val();
              var uPassword=$("#uPassword").val();
@@ -160,8 +190,8 @@
          if(uUserid.length==0){
              return false;
          }
-         if(uNickname.length==0){
-             return false;
+        if(uNickname.length==0){
+                 return false;
          }
          if(uEmail.length==0){
              return false;
@@ -175,44 +205,63 @@
          if(uWorkplace.length==0){
              return false;
          }
-         let newTab  = window.open("about:blank");
-        $.ajax({
-            url:"${APP_PATH}/regUser?uName="+uName+"&uAge="+uAge+"&uUserid="+uUserid+"&uNickname="+uNickname+"&uEmail="+uEmail+"&uPassword="+uPassword+"&uSex="+uSex+"&uWorkplace="+uWorkplace,
-            type:"POST",
-            async:false,//删除
-            success:function(result){
-                if(result.code==100){
-                    alert("注册成功");
-                    <%--window.location.href='${APP_PATH}/jumpToLogin/login';--%>
-                    newTab.location.href='${APP_PATH}/jumpToLogin/login';
-                    <%--window.open('${APP_PATH}/jumpToLogin/login');--%>
-                }else{
-                    alert("注册失败");
-                }
-            }
-        });
-    });
-     $("#uUserid").change(function (){
-         //发送ajax请求校验账号是否重复
-         var uUserid=$("#uUserid").val();
-         $.ajax({
-             url:"${APP_PATH}/checkuUserid",
-             data:"uUserid="+uUserid,
-             type:"POST",
-             success:function (result){
-                 if(result.code==100){
-                     $("#uUserid").parent().removeClass("has-error");
-                     $("#uUserid").parent().addClass("has-success");
-                 }else{
-                     $("#uUserid").parent().removeClass("has-success");
-                     $("#uUserid").parent().addClass("has-error");
-                     alert("账号重复");
-                 }
+         if (uName.length > 5) {
+             alert("请输入真实姓名！！");
+             return false;
+         }
+         if (uNickname.length > 20) {
+             alert("昵称输入过长，请您重新填写！！");
+             return false;
+         }
+         if(uPassword.length>25){
+             alert("密码输入过长，请您重新填写！！");
+             return false;
+         }
+         if (uAge.length > 2) {
+             alert("年龄输入过大，请您重新填写！！");
+             return false;
+         }
+         if (uEmail.length > 30) {
+             alert("邮箱输入过长，请您重新填写！！");
+             return false;
+         }
+         var j=0;
+         var i;
+         for(i=0;i<uEmail.length;i++)
+         {
+             if(uEmail[i]!=='@')
+             {
+                 j++;
+             }else if(uEmail[i+1]==null){
+                 alert("邮箱格式不正确");
+                 return false;
              }
-         })
+         }
+         if(j===uEmail.length){
+             alert("邮箱格式不正确");
+             return false;
+         }
+     // });
      });
      $(document).ready(function(){
          $('#user_regis_form').bootstrapValidator();
      });
 </script>
 </html>
+<%--// let newTab  = window.open("about:blank");--%>
+<%--$.ajax({--%>
+<%--    url:"${APP_PATH}/regUser?uName="+uName+"&uAge="+uAge+"&uUserid="+uUserid+"&uNickname="+uNickname+"&uEmail="+uEmail+"&uPassword="+uPassword+"&uSex="+uSex+"&uWorkplace="+uWorkplace,--%>
+<%--    type:"POST",--%>
+<%--    async:false,//删除--%>
+<%--    success:function(result){--%>
+<%--        if(result.code==100){--%>
+<%--            alert("注册成功");--%>
+<%--            &lt;%&ndash;window.location.href='${APP_PATH}/jumpToLogin/login';&ndash;%&gt;--%>
+<%--            newTab.location.href='${APP_PATH}/jumpToLogin/login';--%>
+<%--            &lt;%&ndash;window.open('${APP_PATH}/jumpToLogin/login');&ndash;%&gt;--%>
+<%--        }else{--%>
+<%--            alert("注册失败");--%>
+<%--        }--%>
+<%--    }--%>
+<%--});--%>
+<%--// $("#uUserid").change(function (){--%>

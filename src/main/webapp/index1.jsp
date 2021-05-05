@@ -14,6 +14,7 @@
     <%
         //这个的路径是以斜线开始的，不以斜线结束
         pageContext.setAttribute("APP_PATH",request.getContextPath());
+
     %>
     <!--引入jquery-->
     <script src="${APP_PATH}/statics/js/jquery-1.10.2.js"></script>
@@ -80,6 +81,7 @@
 <script>
     //页面首次加载
     $(function () {
+
         $.ajax({
             url:"${APP_PATH}/section/findAll",
             type:"GET",

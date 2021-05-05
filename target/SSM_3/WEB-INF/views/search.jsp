@@ -52,7 +52,7 @@
                                 <ul class="nav nav-tabs kinds">
                                     <li role="presentation" id="searchmains"><a href="#">帖子</a></li>
                                     <li role="presentation" id="searchusers"><a href="#">用户</a></li>
-                                    <li role="presentation"><a href="#">其他</a></li>
+<%--                                    <li role="presentation"><a href="#">其他</a></li>--%>
                                 </ul>
                             </div>
                         </div>
@@ -134,10 +134,15 @@
             var mainTitleTd=$("<div class='col-md-3'></div>").append("标题："+item.mTitle);
             var link=$("<a href='${APP_PATH}/jumpToLogin/follow?mainId="+item.mMainid+"' target='_blank' class='link'></a>");
             mainTitleTd.append(link);
+            //指向特定帖子的链接
+            var link=$("<a href='${APP_PATH}/jumpToLogin/follow?mainId="+item.mMainid+"' target='_blank' class='link'></a>");
+            mainTitleTd.append(link);
 
             var mainnerHeadPic=$("<div></div>").append("<img src='"+item.user.uHeadpic+"'alt='头像' class=\"img-circle\" width=45px height=45px>");
             var mainnerid=$("<div></div>").append(item.user.uUserid);
             var userNickname=$("<div class='col-md-3'></div>").append(mainnerHeadPic).append(mainnerid);//主帖的发布者
+            link=$("<a href='${APP_PATH}/userInfo.jsp?uid="+item.user.uId+"' target='_blank' class='link'></a>");
+            userNickname.append(link);
 
             var date=formatDate(item.mMaindate);
             var hourandminute=formatDateHourAndMinute(item.mMaindate);
@@ -254,7 +259,7 @@
         };
 
         $.ajax({
-            url:"${APP_PATH}/users/searchUsers",
+            url:"${APP_PATH}/user/searchUsers",
             data:data,
             type:"get",
             success:function (result) {
@@ -289,8 +294,11 @@
 
             var mainnerHeadPic=$("<div></div>").append("<img src='"+item.uHeadpic+"'alt='头像' class=\"img-circle\" width=45px height=45px>");
             var mainnerid=$("<div></div>").append(item.uUserid);
-
             var userid=$("<div class='col-md-4'></div>").append(mainnerHeadPic).append(mainnerid);//主帖的发布者
+
+            var link=$("<a href='${APP_PATH}/userInfo.jsp?uid="+item.uId+"' target='_blank' class='link'></a>");
+            userid.append(link);
+
             var mains=$("<div class='col-md-4'></div>").append("总发帖数："+item.mainPostNums);
 
             //积分数

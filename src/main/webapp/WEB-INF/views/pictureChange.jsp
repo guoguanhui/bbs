@@ -32,7 +32,6 @@
 </form>
 <script>
     $(function () {
-
             var headpic='${userheadpic}';
             var img=$("<img class='img-circle' width=200px height=200px>");
             img.attr("src",headpic);

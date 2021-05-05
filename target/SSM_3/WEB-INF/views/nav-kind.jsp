@@ -33,7 +33,7 @@
                         <li role="presentation" id="needs"><a href="${APP_PATH}/section/needs?sectionId=${section.sId}">需求帖</a></li>
                         <li role="presentation" id="hots"><a href="${APP_PATH}/section/hots?sectionId=${section.sId}">热门帖</a></li>
                         <li role="presentation" id="latests"><a href="${APP_PATH}/section/news?sectionId=${section.sId}">最新帖</a></li>
-                        <li role="presentation"><a href="#">其他</a></li>
+<%--                        <li role="presentation"><a href="#">其他</a></li>--%>
                     </ul>
                 </div>
             </div>

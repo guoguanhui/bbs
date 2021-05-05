@@ -6,7 +6,7 @@ import com.ncu.bbs.bean.UserExample;
 import com.ncu.bbs.dao.AdministratorMapper;
 import com.ncu.bbs.dao.UserMapper;
 
-import com.ncu.bbs.wale.services.impl.AdministratorServiceImpl;
+import com.ncu.bbs.services.impl.AdminServiceImpl;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +21,7 @@ import java.util.UUID;
 
 public class administratorTest {
     @Autowired
-    AdministratorServiceImpl administratorService;
+    AdminServiceImpl administratorService;
     @Autowired
     AdministratorMapper administratorMapper;
 

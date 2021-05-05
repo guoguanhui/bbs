@@ -3,7 +3,7 @@ package com.ncu.bbs.wale.test;
 import com.ncu.bbs.bean.User;
 import com.ncu.bbs.bean.UserExample;
 import com.ncu.bbs.dao.UserMapper;
-import com.ncu.bbs.wale.services.UserService;
+import com.ncu.bbs.services.userService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +22,7 @@ public class UserTest {
     UserMapper userMapper;
 
     @Autowired
-    UserService userService;
+    com.ncu.bbs.services.userService userService;
 
     @Test
     public void addSomHeadPic(){

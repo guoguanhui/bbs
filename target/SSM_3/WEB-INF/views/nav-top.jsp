@@ -36,7 +36,7 @@
                         <li><a href="${APP_PATH}/adminlogin.jsp">管理员登录</a></li>
                     </c:if>
                     <c:if test="${adminid!=null}">
-                        <li><a href="${APP_PATH}/admin.jsp">管理员入口</a></li>
+                        <li><a href="${APP_PATH}/jumpToLogin/toWhere?where=admin">管理员入口</a></li>
                     </c:if>
                     <c:if test="${userid==null}">
                         <li><a href="${APP_PATH}/jumpToLogin/login">登录</a></li>

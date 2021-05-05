@@ -1,4 +1,3 @@
-
 <%--
   Created by IntelliJ IDEA.
   User: 浩瀚
@@ -173,7 +172,6 @@
     });
     //跳转到页面
     function to_page(pn){
-
         var data={
             "pn":pn,
             "sectionId":${section.sId}
